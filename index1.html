@@ -7,27 +7,63 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #map {
+            height: 100vh;
+        }
+
+        /* Background pada Judul */
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            text-align: center;
+
+        }
+
+        .info h2 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+    </style>
 </head>
 
 <body>
     <div id="map" style="height: 100vh;"></div>
 
     <div class="container">
-            <tbody id="data-table">
+        <tbody id="data-table">
 
-            </tbody>
+        </tbody>
     </div>
+
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <script>
+
+        var title = new L.Control();
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+
+        title.update = function () {
+            this._div.innerHTML = '<h2>LATIHAN WEBGIS | COVID-19 KABUPATEN SLEMAN</h2>MATAKULIAH PEMROGRAMAN SPASIAL : WEB'
+        };
+        title.addTo(map);
+
         var map = L.map('map').setView([-7.7956, 110.3695], 12);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
         }).addTo(map);
 
-        var markers = L.layerGroup(); 
+        var markers = L.layerGroup();
 
 
         var xmlhttp = new XMLHttpRequest();
@@ -37,9 +73,9 @@
 
                 data.forEach(function (row) {
                     var marker = L.marker([row.latitude, row.longitude]).addTo(markers);
-                    marker.bindPopup("<strong>" + row.kecamatan );
+                    marker.bindPopup("<strong>" + row.kecamatan);
 
-                  
+
                 });
 
                 markers.addTo(map); // Add the layer group to the map
@@ -51,7 +87,7 @@
         xmlhttp.send();
 
 
-        
+
         var basemap1 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="DIVSIGUGM" target="_blank">DIVSIG UGM</a>' //menambahkan nama//
         });
@@ -70,6 +106,33 @@
 
 
         basemap4.addTo(map);
+
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function (map) {
+                var img = L.DomUtil.create('img');
+                img.src = 'assets/img/logo/LOGO_SIG_BLUE.png';
+                img.style.width = '300px';
+                return img;
+            }
+        });
+
+        L.control.watermark = function (opts) {
+            return new L.Control.Watermark(opts);
+        }
+
+        L.control.watermark({ position: 'bottomleft' }).addTo(map);
+
+        var title = new L.Control();
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+
+        title.update = function () {
+            this._div.innerHTML = '<h2>LATIHAN WEBGIS | COVID-19 KABUPATEN SLEMAN</h2>MATAKULIAH PEMROGRAMAN SPASIAL : WEB'
+        };
+        title.addTo(map);
 
         /* Layer Marker */
         var marker1 = L.marker([-7.766715, 110.377460], { draggable: true });

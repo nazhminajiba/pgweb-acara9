@@ -165,31 +165,16 @@
       };
       title.update = function () {
         this._div.innerHTML =
-          "<h2>LATIHAN WEBGIS | FASILITAS PENDIDIKAN KAB. SLEMAN</h2>MATAKULIAH PEMROGRAMAN SPASIAL : WEB";
+          "<h2>LATIHAN WEBGIS | JUMLAH PENDUDUK KAB. SLEMAN</h2>MATAKULIAH PEMROGRAMAN SPASIAL : WEB";
       };
       title.addTo(map);
-
-       // Watermark
-       L.Control.Watermark = L.Control.extend({
-        onAdd: function (map) {
-          var img = L.DomUtil.create("img");
-          img.src = "assets/img/logo/LOGO_SIG_BLUE.png";
-          img.style.width = "120px";
-          return img;
-        },
-      });
-      L.control.watermark = function (opts) {
-        return new L.Control.Watermark(opts);
-      };
-
-      L.control.watermark({ position: "bottomleft" }).addTo(map);
 
       // Legend
       L.Control.Legend = L.Control.extend({
         onAdd: function (map) {
           var img = L.DomUtil.create("img");
-          img.src = "assets/img/legenda/legend2.png";
-          img.style.width = "250px";
+          img.src = "assets/img/legend/legend.png";
+          img.style.width = "150px";
           return img;
         },
       });
@@ -199,7 +184,20 @@
 
       L.control.Legend({ position: "bottomleft" }).addTo(map);
 
-     
+      // Watermark
+      L.Control.Watermark = L.Control.extend({
+        onAdd: function (map) {
+          var img = L.DomUtil.create("img");
+          img.src = "assets/img/logo/HV.png";
+          img.style.width = "120px";
+          return img;
+        },
+      });
+      L.control.watermark = function (opts) {
+        return new L.Control.Watermark(opts);
+      };
+
+      L.control.watermark({ position: "bottomleft" }).addTo(map);
 
       // Basemaps
       var basemap1 = L.tileLayer(
@@ -250,7 +248,7 @@
       var searchControl = new L.Control.Search({
         position: "topleft",
         layer: wfsgeoserver1, // Nama variabel layer
-        propertyName: "Kapanewon", // Field untuk pencarian
+        propertyName: "kecamatan", // Field untuk pencarian
         marker: false,
         moveToLocation: function (latlng, title, map) {
           var zoom = map.getBoundsZoom(latlng.layer.getBounds());
@@ -282,7 +280,6 @@
           setView: true,
           keepCurrentZoomLevel: false,
           markerStyle: {
-            
             weight: 1,
             opacity: 0.8,
             fillOpacity: 0.8,
@@ -291,7 +288,7 @@
             weight: 1,
             clickable: false,
           },
-          icon: "bi bi-book-half",
+          icon: "fas fa-crosshairs",
           metric: true,
           strings: {
             title: "Click for Your Location",
@@ -346,10 +343,10 @@
 
       // Layer Marker
       var addressPoints = [
-        [-7.770717, 110.377724, "UGM"],
-        [-7.7759,  110.384, "UNY"],
-        [-7.7749, 110.3899, "USD"],
-        [-7.7788, 110.4139, "UAJ"],
+        [-7.7256681, 110.3830948, "Monjali"],
+        [-7.743168, 110.350276, "RS. Akademik UGM"],
+        [-7.76793579, 110.37344753, "RSUP DR. SARDJITO"],
+        [-7.6868787, 110.3418979, "RSUD SLEMAN"],
       ];
 
       var markers = L.markerClusterGroup();
@@ -362,13 +359,8 @@
         marker.bindPopup(title1);
         markers.addLayer(marker);
       }
-      map.addLayer(markers);
-      
-    $.getJSON("wfsgeoserver1.php", function (data) {
-      wfsgeoserver1.addData(data);
-      wfsgeoserver1.addTo(map);
-      map.fitBounds(wfsgeoserver1.getBounds());
-    });
 
-  </script>
-</body></html>
+      map.addLayer(markers);
+    </script>
+  </body>
+</html>

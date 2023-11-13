@@ -3,7 +3,7 @@
 
 # Ubah URL pada file_get_contents sesuai alamat file pada geoserver  
 $wfsUrl =  
-file_get_contents("https://geoportal.slemankab.go.id/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Aa__3404_50KB_AR_JUMLAH_BABI_2021&maxFeatures=50&outputFormat=application%2Fjson"); 
+file_get_contents("https://geoportal.slemankab.go.id/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Aa__3404_50KB_AR_JUMLAH_SAPI_POTONG_2021&maxFeatures=50&outputFormat=application%2Fjson"); 
  
 header('Content-type: application/json'); 
 echo ($wfsUrl); 
